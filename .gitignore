@@ -1,0 +1,14 @@
+node_modules/
+**/dist/
+.npm-cache/
+artifacts/
+coverage/
+tmp/
+*.log
+.env
+.env.*
+!.env.example
+*.pem
+*.crt
+.DS_Store
+Thumbs.db
