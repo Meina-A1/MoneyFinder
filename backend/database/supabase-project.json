@@ -1,0 +1,11 @@
+{
+  "projectName": "MoneyFinder",
+  "projectRef": "ocxuycnvmkaxtdgsfgng",
+  "organization": "Meina",
+  "region": "sa-east-1",
+  "schema": "financas",
+  "backendRole": "moneyfinder_app",
+  "poolerHost": "aws-0-sa-east-1.pooler.supabase.com",
+  "poolerPort": 5432,
+  "dashboardUrl": "https://supabase.com/dashboard/project/ocxuycnvmkaxtdgsfgng"
+}
