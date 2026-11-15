@@ -1,6 +1,6 @@
 # MoneyFinder
 
-Aplicação de controle financeiro pessoal do **Projeto 2 de Programação Web Fullstack**. Projeto independente do AnimeFinder (Projeto 1), mantendo sua identidade visual: paleta roxa, fontes DM Sans/Outfit, símbolo do gato e cartões arredondados.
+Aplicação de controle financeiro pessoal do **Projeto 2 de Programação Web Fullstack**. Mantendo a identidade visual do projeto 1: paleta roxa, fontes DM Sans/Outfit, símbolo do gato e cartões arredondados.
 
 React/Vite no frontend, API REST própria em Node.js/Express e PostgreSQL hospedado no Supabase. O cadastro, o hash das senhas e a emissão/validação de JWT são feitos pelo Express. O Supabase fornece o banco; a aplicação não depende do Supabase Auth ou de acesso direto às tabelas pelo navegador.
 
@@ -185,21 +185,6 @@ npm run demo:api
 Os testes de integração usam **PGlite, um motor PostgreSQL embarcado**, apenas como dependência de desenvolvimento. Exercitam HTTP, SQL, chaves estrangeiras, unicidade, transações e regras de faturas sem precisar de credenciais. Não substituem o teste final da conexão real via `pg` com o Supabase.
 
 Para produção local, execute `npm run build` e `npm start`; o Express também serve a SPA compilada. Em hospedagens separadas, configure `VITE_API_URL` antes do build e `FRONTEND_ORIGIN` no backend. GitHub Pages sozinho não executa Express nem hospeda o banco; este repositório tem CI de lint/testes/build e não publicação automática no Pages.
-
-## Roteiro de apresentação (até 10 minutos)
-
-O [guia de apresentação](docs/APRESENTACAO.md) contém roteiro cronometrado, comandos PowerShell, compra no fechamento, mapa dos arquivos e perguntas de estudo. A [conferência da entrega](docs/ENTREGA.md) relaciona os critérios do PDF às evidências e às pendências acadêmicas.
-
-1. Organização, tabelas, constraints e scripts (1 min).
-2. Criar/carregar o banco e iniciar API/SPA pelo terminal (1 min).
-3. Cadastro, CPF inválido e duplicatas de e-mail/CPF com erro no campo (1 min).
-4. Login, token ausente 401 e tentativa de acesso de Bruno aos IDs de Ana 404 (1 min).
-5. CRUD de categoria, fonte/cartão e lançamento; R$ 100,00 em 3 vezes (2 min).
-6. Filtros, totais, relatórios e faturas de cada parcela, incluindo compra no fechamento (2 min).
-7. Saúde financeira e explicação das fórmulas (1 min).
-8. Espaço para perguntas (1 min).
-
-A revisão pessoal do código, a explicação por todos os integrantes, a aprovação das bibliotecas e os commits incrementais dos integrantes fazem parte da entrega. Não há nomes de integrantes inventados nem commits atribuídos a outras pessoas.
 
 ## Apoio e referências
 
