@@ -16,7 +16,8 @@
     "lint": "eslint backend frontend scripts --max-warnings 0",
     "test": "node --test backend/tests/*.test.js",
     "build": "npm run build --workspace frontend",
-    "start": "npm start --workspace backend"
+    "start": "npm start --workspace backend",
+    "demo:api": "node scripts/demo.mjs"
   },
   "workspaces": [
     "backend",

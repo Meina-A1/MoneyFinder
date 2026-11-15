@@ -1,5 +1,12 @@
 -- Schema privado: não é exposto pela Data API pública do Supabase.
-CREATE SCHEMA IF NOT EXISTS financas;
+-- Evita exigir CREATE no banco ao reaplicar o DDL em um schema já provisionado.
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_namespace WHERE nspname = 'financas') THEN
+    EXECUTE 'CREATE SCHEMA financas';
+  END IF;
+END;
+$$;
 
 CREATE TABLE IF NOT EXISTS financas.usuarios (
   id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

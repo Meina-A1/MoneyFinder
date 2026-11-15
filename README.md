@@ -8,7 +8,7 @@ React/Vite no frontend, API REST própria em Node.js/Express e PostgreSQL hosped
 
 - Projeto: [MoneyFinder](https://supabase.com/dashboard/project/ocxuycnvmkaxtdgsfgng), organização Meina, região São Paulo (`sa-east-1`).
 - Referência: `ocxuycnvmkaxtdgsfgng`.
-- Schema e login do servidor já provisionados pelas migrações `moneyfinder_initial_schema` e `moneyfinder_backend_role`.
+- Schema e login do servidor já provisionados pelas migrações `moneyfinder_initial_schema` e `moneyfinder_backend_role`; o migrador foi provisionado por `moneyfinder_scoped_migration_role`.
 - Este checkout está configurado para o PostgreSQL real pelo Session pooler, com certificado CA oficial e verificação TLS habilitada.
 - `backend/.env` contém a credencial privada de `moneyfinder_app`; ela não é versionada. O certificado local também é ignorado pelo Git.
 - Seed executado: 2 usuários fictícios, 14 categorias, 8 fontes/destinos e 48 lançamentos; ambos os usuários têm 3 meses de histórico.
@@ -16,7 +16,9 @@ React/Vite no frontend, API REST própria em Node.js/Express e PostgreSQL hosped
 
 Para executar este checkout, use `npm run dev`. Para repetir o seed sem substituir os dados existentes, use `npm run db:seed`.
 
-O login da aplicação não possui permissão de DDL. Para criar ou alterar o schema pela linha de comando, configure `DATABASE_ADMIN_URL` em `backend/.env` com uma conexão administrativa; `npm run db:migrate` usa essa variável quando preenchida. A primeira criação deste projeto foi aplicada pela integração do Supabase. O arquivo `backend/database/backend-role.sql` registra a criação inicial do login/permissões e deve ser aplicado apenas uma vez, por um administrador; sua senha é definida separadamente e não consta nesse arquivo.
+O login da aplicação não possui permissão de DDL. Neste checkout, `DATABASE_ADMIN_URL` já usa o login separado `moneyfinder_migrator`, proprietário apenas do schema `financas` e de seus objetos; sem superusuário, criação de bancos, criação de roles ou bypass global de RLS. `npm run db:migrate` usa essa conexão e preserva os dados existentes. A credencial fica somente em `backend/.env`. O bootstrap de permissões está em `backend/database/migration-role.sql`, aplicado uma única vez por um administrador após o schema inicial. A senha é definida separadamente. `backend/database/backend-role.sql` registra o bootstrap do login do Express e suas políticas.
+
+Em banco novo, a primeira criação do schema precisa de uma conexão com `CREATE` no banco; depois, provisionam-se os logins e troca-se `DATABASE_URL` pela credencial restrita do Express. O migrador deste computador não cria outros schemas nem bancos.
 
 ## Tecnologias
 
@@ -48,7 +50,7 @@ O setup cria `backend/.env` com um `JWT_SECRET` aleatório, sem sobrescrever con
 1. No projeto do Supabase, abra **Connect** e escolha **Session pooler**, porta 5432. Essa conexão funciona em redes IPv4.
 2. Copie a conexão para `DATABASE_URL` em `backend/.env`, substituindo a senha. Caracteres especiais na senha precisam de codificação de URL.
 3. Mantenha `DATABASE_SSL=true`. Se necessário, baixe o certificado CA no painel e informe seu caminho em `DATABASE_CA_PATH`. A validação TLS permanece habilitada.
-4. Execute os comandos abaixo. O banco de destino deve ser exclusivo para esta aplicação.
+4. Em banco novo, configure `DATABASE_ADMIN_URL` com uma conexão que possa criar o schema; no checkout já configurado, o migrador tem propriedade de `financas`. Execute os comandos abaixo. O banco de destino deve ser exclusivo para esta aplicação.
 
 ```bash
 npm run db:migrate
@@ -176,6 +178,8 @@ IDs são exemplos: use os retornados pela conta autenticada. Erros seguem `{ "er
 npm run lint
 npm test
 npm run build
+# Com a API em execução:
+npm run demo:api
 ```
 
 Os testes de integração usam **PGlite, um motor PostgreSQL embarcado**, apenas como dependência de desenvolvimento. Exercitam HTTP, SQL, chaves estrangeiras, unicidade, transações e regras de faturas sem precisar de credenciais. Não substituem o teste final da conexão real via `pg` com o Supabase.
@@ -184,8 +188,10 @@ Para produção local, execute `npm run build` e `npm start`; o Express também 
 
 ## Roteiro de apresentação (até 10 minutos)
 
+O [guia de apresentação](docs/APRESENTACAO.md) contém roteiro cronometrado, comandos PowerShell, compra no fechamento, mapa dos arquivos e perguntas de estudo. A [conferência da entrega](docs/ENTREGA.md) relaciona os critérios do PDF às evidências e às pendências acadêmicas.
+
 1. Organização, tabelas, constraints e scripts (1 min).
-2. Criar/cargar o banco e iniciar API/SPA pelo terminal (1 min).
+2. Criar/carregar o banco e iniciar API/SPA pelo terminal (1 min).
 3. Cadastro, CPF inválido e duplicatas de e-mail/CPF com erro no campo (1 min).
 4. Login, token ausente 401 e tentativa de acesso de Bruno aos IDs de Ana 404 (1 min).
 5. CRUD de categoria, fonte/cartão e lançamento; R$ 100,00 em 3 vezes (2 min).

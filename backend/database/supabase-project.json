@@ -7,5 +7,6 @@
   "backendRole": "moneyfinder_app",
   "poolerHost": "aws-0-sa-east-1.pooler.supabase.com",
   "poolerPort": 5432,
-  "dashboardUrl": "https://supabase.com/dashboard/project/ocxuycnvmkaxtdgsfgng"
+  "dashboardUrl": "https://supabase.com/dashboard/project/ocxuycnvmkaxtdgsfgng",
+  "migrationRole": "moneyfinder_migrator"
 }
